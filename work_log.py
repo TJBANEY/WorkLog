@@ -1,3 +1,33 @@
+import csv
+import datetime
+
+def print_csv():
+	with open('tasks.csv', newline='') as csvfile:
+		task_reader = csv.reader(csvfile, delimiter=",")
+		rows = list(task_reader)
+		for row in rows:
+			print(row)
+
+def write_csv_header():
+	with open('tasks.csv', 'a') as csvfile:
+		fieldnames = ['date', 'name', 'minutes', 'notes']
+		taskwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+		taskwriter.writeheader()
+
+def write_csv(name, minutes, notes):
+	with open('tasks.csv', 'a') as csvfile:
+		fieldnames = ['date', 'name', 'minutes', 'notes']
+		taskwriter = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+		taskwriter.writeheader()
+		taskwriter.writerow({
+			'date': datetime.datetime.now(),
+			'name': name,
+			'minutes': minutes,
+			'notes': notes
+		})
+
 def work_log():
 	while True:
 		user_input = input("Would you like to create a new entry(c), or look up old ones(L) c/L ? ")
@@ -33,5 +63,5 @@ def search_task():
 		else:
 			print("Not a valid selection")
 
-
-work_log()
+# work_log()
+write_csv_header()
